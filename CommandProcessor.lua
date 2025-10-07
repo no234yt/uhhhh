@@ -1,5 +1,5 @@
 -- CommandProcessor.lua
--- Reads input and executes matching commands from CommandList
+-- Reads command input and executes from CommandList (LocalScript version)
 
 local player = game.Players.LocalPlayer
 local playerGui = player:WaitForChild("PlayerGui")
@@ -10,24 +10,36 @@ local gui = cmdBar:WaitForChild("GUI")
 local commandBox = gui:WaitForChild("CommandTextBox")
 local helpInfo = gui:WaitForChild("Help"):WaitForChild("HelpInformation")
 
--- Require command list (LocalScript-friendly)
-local commands = require(script:WaitForChild("CommandList"))
+-- Find CommandList LocalScript
+local commandListScript = script.Parent:FindFirstChild("CommandList")
+if not commandListScript then
+	warn("[CMD Bar] Missing CommandList.lua — commands won't work.")
+	return
+end
 
+-- Wait for command table
+local commands = nil
+repeat
+	task.wait()
+	commands = getfenv(commandListScript).Commands
+until commands
+
+-- Command input handling
 commandBox.FocusLost:Connect(function(enterPressed)
 	if not enterPressed then return end
 
-	local text = commandBox.Text:lower()
+	local input = commandBox.Text:lower()
 	commandBox.Text = ""
 
-	if text == "" then return end
+	if input == "" then return end
 
-	local cmd = commands[text]
+	local cmd = commands[input]
 	if cmd then
 		helpInfo.Text = "→ " .. (cmd.output or "Command executed.")
 		if typeof(cmd.action) == "function" then
 			task.spawn(cmd.action)
 		end
 	else
-		helpInfo.Text = "⚠️ Unknown command: " .. text
+		helpInfo.Text = "⚠️ Unknown command: " .. input
 	end
 end)
