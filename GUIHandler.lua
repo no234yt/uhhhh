@@ -1,5 +1,5 @@
 -- GUIHandler.lua
--- Handles showing/hiding the CMD bar and welcome popup
+-- Handles showing/hiding CMD bar and welcome popup
 
 local player = game.Players.LocalPlayer
 local playerGui = player:WaitForChild("PlayerGui")
@@ -12,29 +12,28 @@ local toggleGui = cmdBar:WaitForChild("togglegui")
 local smallInfo = screenGui:WaitForChild("SmallInformation")
 local exampleBtn = smallInfo:WaitForChild("Buttons"):WaitForChild("ButtonExample")
 
--- Initial setup
+-- Startup display
 cmdBar.Visible = true
 smallInfo.Visible = true
 guiFrame.Visible = false
 
+-- Customize welcome text here 👇
 smallInfo.Title.Text = "Welcome"
-smallInfo.Description.Text = "Hi there! This is the CMD Bar test message."
+smallInfo.Description.Text = "Welcome to the CMD Bar demo!"
 exampleBtn.Text = "OK"
 
--- CMDBar start positions
+-- CMD bar slide animation setup
 local originalPos = cmdBar.Position
 local hiddenPos = UDim2.new(1.2, 0, originalPos.Y.Scale, originalPos.Y.Offset)
 cmdBar.Position = hiddenPos
 
--- Toggle animation
 local function toggleCMDBar()
-	local isHidden = cmdBar.Position == hiddenPos
-	local goal = {Position = isHidden and originalPos or hiddenPos}
-	guiFrame.Visible = isHidden
-	tweenService:Create(cmdBar, TweenInfo.new(0.4, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), goal):Play()
+	local showing = cmdBar.Position == hiddenPos
+	local goal = { Position = showing and originalPos or hiddenPos }
+	guiFrame.Visible = showing
+	tweenService:Create(cmdBar, TweenInfo.new(0.35, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), goal):Play()
 end
 
--- Button connections
 exampleBtn.MouseButton1Click:Connect(function()
 	smallInfo.Visible = false
 	cmdBar.Visible = true
