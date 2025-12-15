@@ -1,143 +1,124 @@
-local LMG2L = {};
+-- pr3tysonggui GUI (optimized, style preserved)
 
-LMG2L["pr3tysonggui_1"] = Instance.new("ScreenGui", game:GetService("Players").LocalPlayer:WaitForChild("PlayerGui"));
-LMG2L["pr3tysonggui_1"]["ClipToDeviceSafeArea"] = false;
-LMG2L["pr3tysonggui_1"]["Name"] = [[pr3tysonggui]];
-LMG2L["pr3tysonggui_1"]["ZIndexBehavior"] = Enum.ZIndexBehavior.Sibling;
+local Players = game:GetService("Players")
+local player = Players.LocalPlayer
 
+local FONT = Font.new(
+	"rbxasset://fonts/families/IndieFlower.json",
+	Enum.FontWeight.Regular,
+	Enum.FontStyle.Normal
+)
 
-LMG2L["button_2"] = Instance.new("ImageButton", LMG2L["pr3tysonggui_1"]);
-LMG2L["button_2"]["BorderSizePixel"] = 3;
-LMG2L["button_2"]["BackgroundColor3"] = Color3.fromRGB(0, 0, 0);
-LMG2L["button_2"]["Size"] = UDim2.new(0.0396, 0, 0.09227, 0);
-LMG2L["button_2"]["BorderColor3"] = Color3.fromRGB(255, 0, 246);
-LMG2L["button_2"]["Name"] = [[button]];
-LMG2L["button_2"]["Position"] = UDim2.new(0.93833, 0, 0.38915, 0);
+local function stroke(obj)
+	obj.BorderSizePixel = 3
+	obj.BorderColor3 = Color3.fromRGB(255, 0, 246)
+end
 
+local function txt(parent, class, name, text)
+	local t = Instance.new(class, parent)
+	t.Name = name
+	t.Text = text or ""
+	t.TextScaled = true
+	t.TextWrapped = true
+	t.TextColor3 = Color3.new(1,1,1)
+	t.FontFace = FONT
+	t.BackgroundColor3 = Color3.new(0,0,0)
+	t.BackgroundTransparency = 0.9
+	t.BorderSizePixel = 0
+	return t
+end
 
-LMG2L["menu_3"] = Instance.new("Frame", LMG2L["button_2"]);
-LMG2L["menu_3"]["BorderSizePixel"] = 3;
-LMG2L["menu_3"]["BackgroundColor3"] = Color3.fromRGB(0, 0, 0);
-LMG2L["menu_3"]["Size"] = UDim2.new(7.08696, 0, 3.69565, 0);
-LMG2L["menu_3"]["Position"] = UDim2.new(-7.43478, 0, -1.13043, 0);
-LMG2L["menu_3"]["BorderColor3"] = Color3.fromRGB(255, 0, 246);
-LMG2L["menu_3"]["Name"] = [[menu]];
+-- GUI ROOT
+local gui = Instance.new("ScreenGui")
+gui.Name = "pr3tysonggui"
+gui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+gui.Parent = player:WaitForChild("PlayerGui")
 
+-- BUTTON
+local button = Instance.new("ImageButton", gui)
+button.Name = "button"
+button.Size = UDim2.new(0.04,0,0.092,0)
+button.Position = UDim2.new(0.94,0,0.38,0)
+button.BackgroundColor3 = Color3.new(0,0,0)
+stroke(button)
 
-LMG2L["backsong_4"] = Instance.new("TextButton", LMG2L["menu_3"]);
-LMG2L["backsong_4"]["TextWrapped"] = true;
-LMG2L["backsong_4"]["BorderSizePixel"] = 0;
-LMG2L["backsong_4"]["TextScaled"] = true;
-LMG2L["backsong_4"]["TextColor3"] = Color3.fromRGB(255, 255, 255);
-LMG2L["backsong_4"]["BackgroundColor3"] = Color3.fromRGB(0, 0, 0);
-LMG2L["backsong_4"]["FontFace"] = Font.new([[rbxasset://fonts/families/IndieFlower.json]], Enum.FontWeight.Regular, Enum.FontStyle.Normal);
-LMG2L["backsong_4"]["BackgroundTransparency"] = 0.9;
-LMG2L["backsong_4"]["Size"] = UDim2.new(0.09816, 0, 0.16471, 0);
-LMG2L["backsong_4"]["Text"] = [[<]];
-LMG2L["backsong_4"]["Name"] = [[backsong]];
-LMG2L["backsong_4"]["Position"] = UDim2.new(0.02454, 0, 0.78824, 0);
+Instance.new("UIAspectRatioConstraint", button)
 
+-- MENU
+local menu = Instance.new("Frame", button)
+menu.Name = "menu"
+menu.Size = UDim2.new(7.08,0,3.69,0)
+menu.Position = UDim2.new(-7.43,0,-1.13,0)
+menu.BackgroundColor3 = Color3.new(0,0,0)
+menu.Visible = false
+stroke(menu)
 
-LMG2L["nextsong_5"] = Instance.new("TextButton", LMG2L["menu_3"]);
-LMG2L["nextsong_5"]["TextWrapped"] = true;
-LMG2L["nextsong_5"]["BorderSizePixel"] = 0;
-LMG2L["nextsong_5"]["TextScaled"] = true;
-LMG2L["nextsong_5"]["TextColor3"] = Color3.fromRGB(255, 255, 255);
-LMG2L["nextsong_5"]["BackgroundColor3"] = Color3.fromRGB(0, 0, 0);
-LMG2L["nextsong_5"]["FontFace"] = Font.new([[rbxasset://fonts/families/IndieFlower.json]], Enum.FontWeight.Regular, Enum.FontStyle.Normal);
-LMG2L["nextsong_5"]["BackgroundTransparency"] = 0.9;
-LMG2L["nextsong_5"]["Size"] = UDim2.new(0.09816, 0, 0.17647, 0);
-LMG2L["nextsong_5"]["Text"] = [[>]];
-LMG2L["nextsong_5"]["Name"] = [[nextsong]];
-LMG2L["nextsong_5"]["Position"] = UDim2.new(0.1227, 0, 0.78824, 0);
+-- SONG IMAGE
+local songimg = Instance.new("ImageButton", menu)
+songimg.Name = "songimg"
+songimg.Size = UDim2.new(0.368,0,0.705,0)
+songimg.Position = UDim2.new(0.012,0,0.023,0)
+songimg.BackgroundTransparency = 1
 
+-- LABELS
+local currentsong = txt(menu,"TextLabel","currentsong","song name")
+currentsong.Size = UDim2.new(0.613,0,0.2,0)
+currentsong.Position = UDim2.new(0.38,0,0.01,0)
+currentsong.BackgroundTransparency = 1
+currentsong.TextXAlignment = Enum.TextXAlignment.Right
+currentsong.TextYAlignment = Enum.TextYAlignment.Top
 
-LMG2L["play/pause_6"] = Instance.new("TextButton", LMG2L["menu_3"]);
-LMG2L["play/pause_6"]["TextWrapped"] = true;
-LMG2L["play/pause_6"]["BorderSizePixel"] = 0;
-LMG2L["play/pause_6"]["TextScaled"] = true;
-LMG2L["play/pause_6"]["TextColor3"] = Color3.fromRGB(255, 255, 255);
-LMG2L["play/pause_6"]["BackgroundColor3"] = Color3.fromRGB(0, 0, 0);
-LMG2L["play/pause_6"]["FontFace"] = Font.new([[rbxasset://fonts/families/IndieFlower.json]], Enum.FontWeight.Regular, Enum.FontStyle.Normal);
-LMG2L["play/pause_6"]["BackgroundTransparency"] = 0.9;
-LMG2L["play/pause_6"]["Size"] = UDim2.new(0.09816, 0, 0.22353, 0);
-LMG2L["play/pause_6"]["Text"] = [[P]];
-LMG2L["play/pause_6"]["Name"] = [[play/pause]];
-LMG2L["play/pause_6"]["Position"] = UDim2.new(0.88344, 0, 0.75294, 0);
+local songcounter = txt(menu,"TextLabel","songcounter","1/1")
+songcounter.Size = UDim2.new(0.22,0,0.16,0)
+songcounter.Position = UDim2.new(0.77,0,0.16,0)
+songcounter.BackgroundTransparency = 1
+songcounter.TextXAlignment = Enum.TextXAlignment.Right
 
+-- CONTROLS
+local backsong = txt(menu,"TextButton","backsong","<")
+backsong.Size = UDim2.new(0.098,0,0.164,0)
+backsong.Position = UDim2.new(0.024,0,0.788,0)
 
-LMG2L["start_7"] = Instance.new("TextButton", LMG2L["menu_3"]);
-LMG2L["start_7"]["TextWrapped"] = true;
-LMG2L["start_7"]["BorderSizePixel"] = 0;
-LMG2L["start_7"]["TextScaled"] = true;
-LMG2L["start_7"]["TextColor3"] = Color3.fromRGB(255, 255, 255);
-LMG2L["start_7"]["BackgroundColor3"] = Color3.fromRGB(0, 0, 0);
-LMG2L["start_7"]["FontFace"] = Font.new([[rbxasset://fonts/families/IndieFlower.json]], Enum.FontWeight.Regular, Enum.FontStyle.Normal);
-LMG2L["start_7"]["BackgroundTransparency"] = 0.9;
-LMG2L["start_7"]["Size"] = UDim2.new(0.10429, 0, 0.16471, 0);
-LMG2L["start_7"]["Text"] = [[/]];
-LMG2L["start_7"]["Name"] = [[start]];
-LMG2L["start_7"]["Position"] = UDim2.new(0.77914, 0, 0.78824, 0);
+local nextsong = txt(menu,"TextButton","nextsong",">")
+nextsong.Size = UDim2.new(0.098,0,0.176,0)
+nextsong.Position = UDim2.new(0.122,0,0.788,0)
 
+local songnum = txt(menu,"TextBox","songnum","")
+songnum.PlaceholderText = "num"
+songnum.Size = UDim2.new(0.098,0,0.258,0)
+songnum.Position = UDim2.new(0.239,0,0.741,0)
+songnum.BackgroundTransparency = 1
 
-LMG2L["currentsong_8"] = Instance.new("TextLabel", LMG2L["menu_3"]);
-LMG2L["currentsong_8"]["TextWrapped"] = true;
-LMG2L["currentsong_8"]["BorderSizePixel"] = 0;
-LMG2L["currentsong_8"]["TextXAlignment"] = Enum.TextXAlignment.Right;
-LMG2L["currentsong_8"]["TextYAlignment"] = Enum.TextYAlignment.Top;
-LMG2L["currentsong_8"]["TextScaled"] = true;
-LMG2L["currentsong_8"]["BackgroundColor3"] = Color3.fromRGB(0, 0, 0);
-LMG2L["currentsong_8"]["FontFace"] = Font.new([[rbxasset://fonts/families/IndieFlower.json]], Enum.FontWeight.Regular, Enum.FontStyle.Normal);
-LMG2L["currentsong_8"]["TextColor3"] = Color3.fromRGB(255, 255, 255);
-LMG2L["currentsong_8"]["BackgroundTransparency"] = 1;
-LMG2L["currentsong_8"]["Size"] = UDim2.new(0.6135, 0, 0.2, 0);
-LMG2L["currentsong_8"]["Text"] = [[song name]];
-LMG2L["currentsong_8"]["Name"] = [[currentsong]];
-LMG2L["currentsong_8"]["Position"] = UDim2.new(0.38037, 0, 0.01176, 0);
+local playpause = txt(menu,"TextButton","play/pause","P")
+playpause.Size = UDim2.new(0.098,0,0.223,0)
+playpause.Position = UDim2.new(0.883,0,0.752,0)
 
+local start = txt(menu,"TextButton","start","/")
+start.Size = UDim2.new(0.104,0,0.164,0)
+start.Position = UDim2.new(0.779,0,0.788,0)
 
-LMG2L["songcounter_9"] = Instance.new("TextLabel", LMG2L["menu_3"]);
-LMG2L["songcounter_9"]["TextWrapped"] = true;
-LMG2L["songcounter_9"]["BorderSizePixel"] = 0;
-LMG2L["songcounter_9"]["TextXAlignment"] = Enum.TextXAlignment.Right;
-LMG2L["songcounter_9"]["TextYAlignment"] = Enum.TextYAlignment.Top;
-LMG2L["songcounter_9"]["TextScaled"] = true;
-LMG2L["songcounter_9"]["BackgroundColor3"] = Color3.fromRGB(0, 0, 0);
-LMG2L["songcounter_9"]["FontFace"] = Font.new([[rbxasset://fonts/families/IndieFlower.json]], Enum.FontWeight.Regular, Enum.FontStyle.Normal);
-LMG2L["songcounter_9"]["TextColor3"] = Color3.fromRGB(255, 255, 255);
-LMG2L["songcounter_9"]["BackgroundTransparency"] = 1;
-LMG2L["songcounter_9"]["Size"] = UDim2.new(0.22086, 0, 0.16471, 0);
-LMG2L["songcounter_9"]["Text"] = [[1/3]];
-LMG2L["songcounter_9"]["Name"] = [[songcounter]];
-LMG2L["songcounter_9"]["Position"] = UDim2.new(0.77301, 0, 0.16471, 0);
+-- NEW: REPEAT MODE
+local repeatmode = txt(menu,"TextButton","repeatmode","R0")
+repeatmode.Size = UDim2.new(0.104,0,0.164,0)
+repeatmode.Position = UDim2.new(0.65,0,0.788,0)
 
+-- NEW: PLAYLIST SWITCH
+local playlist = txt(menu,"TextButton","playlist","PL")
+playlist.Size = UDim2.new(0.104,0,0.164,0)
+playlist.Position = UDim2.new(0.53,0,0.788,0)
 
-LMG2L["songnum_a"] = Instance.new("TextBox", LMG2L["menu_3"]);
-LMG2L["songnum_a"]["Name"] = [[songnum]];
-LMG2L["songnum_a"]["PlaceholderColor3"] = Color3.fromRGB(255, 255, 255);
-LMG2L["songnum_a"]["BorderSizePixel"] = 0;
-LMG2L["songnum_a"]["TextWrapped"] = true;
-LMG2L["songnum_a"]["TextColor3"] = Color3.fromRGB(255, 255, 255);
-LMG2L["songnum_a"]["TextScaled"] = true;
-LMG2L["songnum_a"]["BackgroundColor3"] = Color3.fromRGB(0, 0, 0);
-LMG2L["songnum_a"]["FontFace"] = Font.new([[rbxasset://fonts/families/IndieFlower.json]], Enum.FontWeight.Regular, Enum.FontStyle.Normal);
-LMG2L["songnum_a"]["PlaceholderText"] = [[num]];
-LMG2L["songnum_a"]["Size"] = UDim2.new(0.09816, 0, 0.25882, 0);
-LMG2L["songnum_a"]["Position"] = UDim2.new(0.23926, 0, 0.74118, 0);
-LMG2L["songnum_a"]["Text"] = [[0]];
-LMG2L["songnum_a"]["BackgroundTransparency"] = 1;
+-- NEW: PROGRESS BAR
+local progressbg = Instance.new("Frame", menu)
+progressbg.Name = "progressbg"
+progressbg.Size = UDim2.new(0.96,0,0.04,0)
+progressbg.Position = UDim2.new(0.02,0,0.69,0)
+progressbg.BackgroundColor3 = Color3.new(0,0,0)
+stroke(progressbg)
 
+local progressfill = Instance.new("Frame", progressbg)
+progressfill.Name = "progressfill"
+progressfill.Size = UDim2.new(0,0,1,0)
+progressfill.BackgroundColor3 = Color3.new(1,1,1)
+progressfill.BorderSizePixel = 0
 
-LMG2L["songimg_b"] = Instance.new("ImageButton", LMG2L["menu_3"]);
-LMG2L["songimg_b"]["BorderSizePixel"] = 0;
-LMG2L["songimg_b"]["BackgroundTransparency"] = 1;
-LMG2L["songimg_b"]["BackgroundColor3"] = Color3.fromRGB(255, 255, 255);
-LMG2L["songimg_b"]["Size"] = UDim2.new(0.3681, 0, 0.70588, 0);
-LMG2L["songimg_b"]["Name"] = [[songimg]];
-LMG2L["songimg_b"]["Position"] = UDim2.new(0.01227, 0, 0.02353, 0);
-
-
-LMG2L["UIAspectRatioConstraint_c"] = Instance.new("UIAspectRatioConstraint", LMG2L["button_2"]);
-
-
-return LMG2L["pr3tysonggui_1"], require;
+return gui
