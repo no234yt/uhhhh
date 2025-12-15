@@ -105,7 +105,7 @@ end
 textButton("backsong", "<", UDim2.fromScale(0.1, 0.16), UDim2.fromScale(0.02, 0.79))
 textButton("nextsong", ">", UDim2.fromScale(0.1, 0.18), UDim2.fromScale(0.12, 0.79))
 textButton("playpause", "P", UDim2.fromScale(0.1, 0.22), UDim2.fromScale(0.88, 0.75))
-textButton("repeat", "R", UDim2.fromScale(0.1, 0.16), UDim2.fromScale(0.66, 0.79))
+textButton("rrepeat", "R", UDim2.fromScale(0.1, 0.16), UDim2.fromScale(0.66, 0.79))
 textButton("playlist", "L", UDim2.fromScale(0.1, 0.16), UDim2.fromScale(0.54, 0.79))
 textButton("volume", "V", UDim2.fromScale(0.1, 0.16), UDim2.fromScale(0.42, 0.79))
 
