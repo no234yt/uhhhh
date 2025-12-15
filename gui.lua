@@ -1,151 +1,252 @@
 -- pr3tysonggui optimized GUI
+local Players = game:GetService("Players")
+local gui = Instance.new("ScreenGui")
+gui.Name = "pr3tysonggui"
+gui.Parent = Players.LocalPlayer:WaitForChild("PlayerGui")
+gui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+gui.ClipToDeviceSafeArea = false
 
-local LMG2L = {}
-
-local function createButton(parent, name, size, pos, text, fontSize)
+-- helper function to create buttons/textlabels
+local function createButton(parent, props)
 	local btn = Instance.new("TextButton")
-	btn.Name = name
-	btn.Size = size
-	btn.Position = pos
-	btn.BackgroundColor3 = Color3.fromRGB(0,0,0)
-	btn.BorderColor3 = Color3.fromRGB(255,0,246)
-	btn.BorderSizePixel = 3
-	btn.Text = text or ""
-	btn.TextColor3 = Color3.fromRGB(255,255,255)
-	btn.TextScaled = fontSize or true
-	btn.FontFace = Font.new([[rbxasset://fonts/families/IndieFlower.json]], Enum.FontWeight.Regular, Enum.FontStyle.Normal)
-	btn.BackgroundTransparency = 0.9
+	for k,v in pairs(props) do
+		btn[k] = v
+	end
 	btn.Parent = parent
 	return btn
 end
 
-local function createLabel(parent, name, size, pos, text)
+local function createLabel(parent, props)
 	local lbl = Instance.new("TextLabel")
-	lbl.Name = name
-	lbl.Size = size
-	lbl.Position = pos
-	lbl.BackgroundColor3 = Color3.fromRGB(0,0,0)
-	lbl.BackgroundTransparency = 1
-	lbl.TextColor3 = Color3.fromRGB(255,255,255)
-	lbl.TextScaled = true
-	lbl.Text = text or ""
-	lbl.FontFace = Font.new([[rbxasset://fonts/families/IndieFlower.json]], Enum.FontWeight.Regular, Enum.FontStyle.Normal)
-	lbl.TextXAlignment = Enum.TextXAlignment.Right
-	lbl.TextYAlignment = Enum.TextYAlignment.Top
+	for k,v in pairs(props) do
+		lbl[k] = v
+	end
 	lbl.Parent = parent
 	return lbl
 end
 
--- Main ScreenGui
-LMG2L["pr3tysonggui_1"] = Instance.new("ScreenGui")
-LMG2L["pr3tysonggui_1"].Name = "pr3tysonggui"
-LMG2L["pr3tysonggui_1"].ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-LMG2L["pr3tysonggui_1"].Parent = game:GetService("Players").LocalPlayer:WaitForChild("PlayerGui")
+local function createImageButton(parent, props)
+	local btn = Instance.new("ImageButton")
+	for k,v in pairs(props) do
+		btn[k] = v
+	end
+	btn.Parent = parent
+	return btn
+end
 
--- Main Button
-LMG2L["button"] = Instance.new("ImageButton")
-LMG2L["button"].Name = "button"
-LMG2L["button"].Size = UDim2.new(0.04,0,0.09,0)
-LMG2L["button"].Position = UDim2.new(0.938,0,0.39,0)
-LMG2L["button"].BackgroundColor3 = Color3.fromRGB(0,0,0)
-LMG2L["button"].BorderColor3 = Color3.fromRGB(255,0,246)
-LMG2L["button"].BorderSizePixel = 3
-LMG2L["button"].Parent = LMG2L["pr3tysonggui_1"]
+local function createFrame(parent, props)
+	local f = Instance.new("Frame")
+	for k,v in pairs(props) do
+		f[k] = v
+	end
+	f.Parent = parent
+	return f
+end
 
-LMG2L["UIAspectRatioConstraint"] = Instance.new("UIAspectRatioConstraint", LMG2L["button"])
+-- MAIN DRAGGABLE BUTTON
+local mainBtn = createImageButton(gui, {
+	Name = "button",
+	Size = UDim2.new(0.04,0,0.09,0),
+	Position = UDim2.new(0.938,0,0.39,0),
+	BackgroundColor3 = Color3.fromRGB(0,0,0),
+	BorderSizePixel = 3,
+	BorderColor3 = Color3.fromRGB(255,0,246),
+	AutoButtonColor = false,
+})
 
--- Menu Frame
-LMG2L["menu"] = Instance.new("Frame")
-LMG2L["menu"].Name = "menu"
-LMG2L["menu"].Size = UDim2.new(7.08,0,3.69,0)
-LMG2L["menu"].Position = UDim2.new(-7.43,0,-1.13,0)
-LMG2L["menu"].BackgroundColor3 = Color3.fromRGB(0,0,0)
-LMG2L["menu"].BorderColor3 = Color3.fromRGB(255,0,246)
-LMG2L["menu"].BorderSizePixel = 3
-LMG2L["menu"].Parent = LMG2L["button"]
+-- ASPECT RATIO
+Instance.new("UIAspectRatioConstraint", mainBtn)
 
--- Song Image / Album Cover
-LMG2L["songimg"] = Instance.new("ImageButton")
-LMG2L["songimg"].Name = "songimg"
-LMG2L["songimg"].Size = UDim2.new(0.37,0,0.70,0)
-LMG2L["songimg"].Position = UDim2.new(0.01,0,0.02,0)
-LMG2L["songimg"].BackgroundTransparency = 1
-LMG2L["songimg"].Parent = LMG2L["menu"]
+-- MENU FRAME
+local menu = createFrame(mainBtn, {
+	Name = "menu",
+	Size = UDim2.new(7.08,0,3.69,0),
+	Position = UDim2.new(-7.43,0,-1.13,0),
+	BackgroundColor3 = Color3.fromRGB(0,0,0),
+	BorderColor3 = Color3.fromRGB(255,0,246),
+	BorderSizePixel = 3,
+	Visible = false,
+})
 
--- Song Name Label
-LMG2L["currentsong"] = createLabel(LMG2L["menu"], "currentsong", UDim2.new(0.61,0,0.2,0), UDim2.new(0.38,0,0.01,0), "song name")
+-- SONG IMAGE / COVER
+local songImg = createImageButton(menu, {
+	Name = "songimg",
+	Size = UDim2.new(0.37,0,0.7,0),
+	Position = UDim2.new(0.01,0,0.02,0),
+	BackgroundTransparency = 1,
+	BorderSizePixel = 0,
+})
 
--- Song Counter Label
-LMG2L["songcounter"] = createLabel(LMG2L["menu"], "songcounter", UDim2.new(0.22,0,0.16,0), UDim2.new(0.77,0,0.16,0), "1/3")
+-- CURRENT SONG LABEL
+local currSong = createLabel(menu, {
+	Name = "currentsong",
+	Size = UDim2.new(0.61,0,0.2,0),
+	Position = UDim2.new(0.38,0,0.01,0),
+	Text = "song name",
+	TextScaled = true,
+	TextColor3 = Color3.fromRGB(255,255,255),
+	BackgroundTransparency = 1,
+	Font = Enum.Font.IndieFlower,
+	TextXAlignment = Enum.TextXAlignment.Right,
+	TextYAlignment = Enum.TextYAlignment.Top,
+})
 
--- Song Number TextBox
-LMG2L["songnum"] = Instance.new("TextBox")
-LMG2L["songnum"].Name = "songnum"
-LMG2L["songnum"].Size = UDim2.new(0.098,0,0.26,0)
-LMG2L["songnum"].Position = UDim2.new(0.23,0,0.74,0)
-LMG2L["songnum"].Text = "0"
-LMG2L["songnum"].PlaceholderText = "num"
-LMG2L["songnum"].TextColor3 = Color3.fromRGB(255,255,255)
-LMG2L["songnum"].BackgroundTransparency = 1
-LMG2L["songnum"].TextScaled = true
-LMG2L["songnum"].FontFace = Font.new([[rbxasset://fonts/families/IndieFlower.json]], Enum.FontWeight.Regular, Enum.FontStyle.Normal)
-LMG2L["songnum"].Parent = LMG2L["menu"]
+-- SONG COUNTER
+local counter = createLabel(menu, {
+	Name = "songcounter",
+	Size = UDim2.new(0.22,0,0.16,0),
+	Position = UDim2.new(0.77,0,0.16,0),
+	Text = "1/3",
+	TextScaled = true,
+	TextColor3 = Color3.fromRGB(255,255,255),
+	BackgroundTransparency = 1,
+	Font = Enum.Font.IndieFlower,
+	TextXAlignment = Enum.TextXAlignment.Right,
+	TextYAlignment = Enum.TextYAlignment.Top,
+})
 
--- Play / Pause Button
-LMG2L["playpause"] = createButton(LMG2L["menu"], "playpause", UDim2.new(0.098,0,0.22,0), UDim2.new(0.88,0,0.75,0), "P")
+-- SONG NUMBER TEXTBOX
+local songNum = Instance.new("TextBox", menu)
+songNum.Name = "songnum"
+songNum.Size = UDim2.new(0.098,0,0.26,0)
+songNum.Position = UDim2.new(0.24,0,0.74,0)
+songNum.Text = "0"
+songNum.PlaceholderText = "num"
+songNum.TextScaled = true
+songNum.BackgroundTransparency = 1
+songNum.TextColor3 = Color3.fromRGB(255,255,255)
+songNum.Font = Enum.Font.IndieFlower
 
--- Next / Previous Buttons
-LMG2L["nextsong"] = createButton(LMG2L["menu"], "nextsong", UDim2.new(0.098,0,0.17,0), UDim2.new(0.12,0,0.79,0), ">")
-LMG2L["backsong"] = createButton(LMG2L["menu"], "backsong", UDim2.new(0.098,0,0.16,0), UDim2.new(0.02,0,0.79,0), "<")
+-- PREV / NEXT BUTTONS
+local prevBtn = createButton(menu, {
+	Name = "backsong",
+	Size = UDim2.new(0.098,0,0.16,0),
+	Position = UDim2.new(0.024,0,0.78,0),
+	Text = "<",
+	TextScaled = true,
+	TextColor3 = Color3.fromRGB(255,255,255),
+	BackgroundTransparency = 0.9,
+	BackgroundColor3 = Color3.fromRGB(0,0,0),
+	Font = Enum.Font.IndieFlower,
+	BorderSizePixel = 0,
+})
 
--- Start / Stop Button (optional feature)
-LMG2L["start"] = createButton(LMG2L["menu"], "start", UDim2.new(0.10,0,0.16,0), UDim2.new(0.77,0,0.79,0), "/")
+local nextBtn = createButton(menu, {
+	Name = "nextsong",
+	Size = UDim2.new(0.098,0,0.176,0),
+	Position = UDim2.new(0.12,0,0.78,0),
+	Text = ">",
+	TextScaled = true,
+	TextColor3 = Color3.fromRGB(255,255,255),
+	BackgroundTransparency = 0.9,
+	BackgroundColor3 = Color3.fromRGB(0,0,0),
+	Font = Enum.Font.IndieFlower,
+	BorderSizePixel = 0,
+})
 
--- Repeat Mode Button
-LMG2L["repeatbtn"] = createButton(LMG2L["menu"], "repeatbtn", UDim2.new(0.08,0,0.08,0), UDim2.new(0.9,0,0.1,0), "OFF")
+-- PLAY / PAUSE BUTTON
+local playBtn = createButton(menu, {
+	Name = "playpause",
+	Size = UDim2.new(0.098,0,0.22,0),
+	Position = UDim2.new(0.88,0,0.75,0),
+	Text = "P",
+	TextScaled = true,
+	TextColor3 = Color3.fromRGB(255,255,255),
+	BackgroundTransparency = 0.9,
+	BackgroundColor3 = Color3.fromRGB(0,0,0),
+	Font = Enum.Font.IndieFlower,
+	BorderSizePixel = 0,
+})
 
--- Playlist Switch Button
-LMG2L["playlistbtn"] = createButton(LMG2L["menu"], "playlistbtn", UDim2.new(0.12,0,0.08,0), UDim2.new(0.01,0,0.1,0), "Playlist")
+-- START BUTTON (for your previous use)
+local startBtn = createButton(menu, {
+	Name = "start",
+	Size = UDim2.new(0.104,0,0.164,0),
+	Position = UDim2.new(0.779,0,0.788,0),
+	Text = "/",
+	TextScaled = true,
+	TextColor3 = Color3.fromRGB(255,255,255),
+	BackgroundTransparency = 0.9,
+	BackgroundColor3 = Color3.fromRGB(0,0,0),
+	Font = Enum.Font.IndieFlower,
+	BorderSizePixel = 0,
+})
 
--- Progress Bar
-LMG2L["progressbg"] = Instance.new("Frame")
-LMG2L["progressbg"].Name = "progressbg"
-LMG2L["progressbg"].Size = UDim2.new(0.6,0,0.03,0)
-LMG2L["progressbg"].Position = UDim2.new(0.38,0,0.22,0)
-LMG2L["progressbg"].BackgroundColor3 = Color3.fromRGB(0,0,0)
-LMG2L["progressbg"].BorderColor3 = Color3.fromRGB(255,0,246)
-LMG2L["progressbg"].BorderSizePixel = 3
-LMG2L["progressbg"].Parent = LMG2L["menu"]
+-- REPEAT MODE BUTTON
+local repeatBtn = createButton(menu, {
+	Name = "repeatBtn",
+	Size = UDim2.new(0.08,0,0.08,0),
+	Position = UDim2.new(0.35,0,0.78,0),
+	Text = "OFF",
+	TextScaled = true,
+	TextColor3 = Color3.fromRGB(255,255,255),
+	BackgroundTransparency = 0.9,
+	BackgroundColor3 = Color3.fromRGB(0,0,0),
+	Font = Enum.Font.IndieFlower,
+	BorderSizePixel = 0,
+})
 
-LMG2L["progressfill"] = Instance.new("Frame")
-LMG2L["progressfill"].Name = "progressfill"
-LMG2L["progressfill"].Size = UDim2.new(0,0,1,0)
-LMG2L["progressfill"].Position = UDim2.new(0,0,0,0)
-LMG2L["progressfill"].BackgroundColor3 = Color3.fromRGB(255,0,246)
-LMG2L["progressfill"].BorderSizePixel = 0
-LMG2L["progressfill"].Parent = LMG2L["progressbg"]
+-- PLAYLIST SWITCH BUTTON
+local playlistBtn = createButton(menu, {
+	Name = "playlistBtn",
+	Size = UDim2.new(0.1,0,0.08,0),
+	Position = UDim2.new(0.46,0,0.78,0),
+	Text = "Playlist",
+	TextScaled = true,
+	TextColor3 = Color3.fromRGB(255,255,255),
+	BackgroundTransparency = 0.9,
+	BackgroundColor3 = Color3.fromRGB(0,0,0),
+	Font = Enum.Font.IndieFlower,
+	BorderSizePixel = 0,
+})
 
--- Volume Button
-LMG2L["volumebtn"] = createButton(LMG2L["menu"], "volumebtn", UDim2.new(0.08,0,0.08,0), UDim2.new(0.9,0,0.2,0), "VOL")
+-- VOLUME BUTTON
+local volBtn = createButton(menu, {
+	Name = "volBtn",
+	Size = UDim2.new(0.08,0,0.08,0),
+	Position = UDim2.new(0.58,0,0.78,0),
+	Text = "Vol",
+	TextScaled = true,
+	TextColor3 = Color3.fromRGB(255,255,255),
+	BackgroundTransparency = 0.9,
+	BackgroundColor3 = Color3.fromRGB(0,0,0),
+	Font = Enum.Font.IndieFlower,
+	BorderSizePixel = 0,
+})
 
--- Volume Slider Background
-LMG2L["volumebg"] = Instance.new("Frame")
-LMG2L["volumebg"].Name = "volumebg"
-LMG2L["volumebg"].Size = UDim2.new(0.15,0,0.03,0)
-LMG2L["volumebg"].Position = UDim2.new(0.75,0,0.28,0)
-LMG2L["volumebg"].BackgroundColor3 = Color3.fromRGB(0,0,0)
-LMG2L["volumebg"].BorderColor3 = Color3.fromRGB(255,0,246)
-LMG2L["volumebg"].BorderSizePixel = 3
-LMG2L["volumebg"].Visible = false
-LMG2L["volumebg"].Parent = LMG2L["menu"]
+-- PROGRESS BAR
+local progressBG = createFrame(menu, {
+	Name = "progressBG",
+	Size = UDim2.new(0.8,0,0.02,0),
+	Position = UDim2.new(0.12,0,0.7,0),
+	BackgroundColor3 = Color3.fromRGB(0,0,0),
+	BorderColor3 = Color3.fromRGB(255,0,246),
+	BorderSizePixel = 3,
+})
 
--- Volume Fill
-LMG2L["volumefill"] = Instance.new("Frame")
-LMG2L["volumefill"].Name = "volumefill"
-LMG2L["volumefill"].Size = UDim2.new(0.5,0,1,0)
-LMG2L["volumefill"].Position = UDim2.new(0,0,0,0)
-LMG2L["volumefill"].BackgroundColor3 = Color3.fromRGB(255,0,246)
-LMG2L["volumefill"].BorderSizePixel = 0
-LMG2L["volumefill"].Parent = LMG2L["volumebg"]
+local progressFill = createFrame(progressBG, {
+	Name = "progressFill",
+	Size = UDim2.new(0,0,1,0),
+	Position = UDim2.new(0,0,0,0),
+	BackgroundColor3 = Color3.fromRGB(255,0,246),
+})
 
-return LMG2L["pr3tysonggui_1"], require
+-- Return GUI & references
+return {
+	gui = gui,
+	mainBtn = mainBtn,
+	menu = menu,
+	songImg = songImg,
+	currSong = currSong,
+	counter = counter,
+	songNum = songNum,
+	prevBtn = prevBtn,
+	nextBtn = nextBtn,
+	playBtn = playBtn,
+	startBtn = startBtn,
+	repeatBtn = repeatBtn,
+	playlistBtn = playlistBtn,
+	volBtn = volBtn,
+	progressBG = progressBG,
+	progressFill = progressFill
+}
