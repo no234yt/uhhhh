@@ -213,17 +213,4 @@ LMG2L["UIAspectRatioConstraint_12"]["AspectRatio"] = 1;
 
 
 
-return LMG2L["ScreenGui_1"], require; Color3.fromRGB(255, 255, 255);
-LMG2L["title_11"]["BackgroundTransparency"] = 1;
-LMG2L["title_11"]["Size"] = UDim2.new(1.18919, 0, 0.3, 0);
-LMG2L["title_11"]["Text"] = [[pr3typrincess's music player!]];
-LMG2L["title_11"]["Name"] = [[title]];
-LMG2L["title_11"]["Position"] = UDim2.new(-0.16892, 0, -0.38, 0);
-
-
-LMG2L["UIAspectRatioConstraint_12"] = Instance.new("UIAspectRatioConstraint", LMG2L["toggler_2"]);
-LMG2L["UIAspectRatioConstraint_12"]["AspectRatio"] = 1;
-
-
-
 return LMG2L["ScreenGui_1"], require;
